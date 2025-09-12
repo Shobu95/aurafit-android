@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aurafit.app.data.repository.TryOnRepository
 import com.aurafit.app.domain.TryOnResult
+import io.ktor.utils.io.printStack
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -29,11 +30,21 @@ class TryOnViewModel(private val repo: TryOnRepository) : ViewModel() {
     fun setGarment(uri: Uri) = _state.update { it.copy(garment = uri) }
 
     fun tryOn() = viewModelScope.launch {
-        val s = _state.value
-        if (s.person == null || s.garment == null) return@launch
-        _state.update { it.copy(loading = true, error = null, resultBitmap = null) }
-        val res = repo.tryOn(s.person, s.garment)
-        _state.update { it.copy(loading = false, resultBitmap = res.toBitmap(), error = res.error) }
+        try {
+            val s = _state.value
+            if (s.person == null || s.garment == null) return@launch
+            _state.update { it.copy(loading = true, error = null, resultBitmap = null) }
+            val res = repo.tryOn(s.person, s.garment)
+            _state.update {
+                it.copy(
+                    loading = false,
+                    resultBitmap = res.toBitmap(),
+                    error = res.error
+                )
+            }
+        } catch (e: Exception){
+            e.printStack()
+        }
     }
 
     private fun TryOnResult.toBitmap(): Bitmap? {

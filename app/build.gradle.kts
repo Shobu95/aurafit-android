@@ -22,7 +22,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL_TRYON", "\"https://api.pixelcut.ai\"")
+            buildConfigField("String", "BASE_URL_TRYON", "\"https://api.developer.pixelcut.ai\"")
             buildConfigField("String", "BASE_URL_NANOBANANA", "\"https://api.nanobanana.dev\"")
             buildConfigField("String", "API_KEY_TRYON", "\"tryon-api-key\"")
             buildConfigField("String", "API_KEY_NANOBANANA", "\"nanobanana-api-key\"")
