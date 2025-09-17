@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -184,7 +185,7 @@ private fun PreviewTile(
                 AsyncImage(
                     model = imageUri,
                     contentDescription = label,
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillHeight,
                     modifier = Modifier.fillMaxSize()
                 )
             }
@@ -206,7 +207,7 @@ fun GeneratedImagePreviewUrl(
             border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(1.3f)
+                .aspectRatio(1.2f)
         ) {
             when {
                 isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -222,7 +223,7 @@ fun GeneratedImagePreviewUrl(
                 else -> AsyncImage(
                     model = imageUrl, // ✅ pass the URL string directly
                     contentDescription = "Generated Image",
-                    contentScale = ContentScale.Crop,
+                    contentScale = ContentScale.FillHeight,
                     modifier = Modifier.fillMaxSize()
                 )
             }
