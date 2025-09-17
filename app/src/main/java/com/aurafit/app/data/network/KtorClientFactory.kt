@@ -12,12 +12,12 @@ import java.util.concurrent.TimeUnit
 
 fun createHttpClient(): HttpClient = HttpClient(OkHttp) {
     install(Logging) {
+        level = LogLevel.ALL
         logger = object : Logger {
             override fun log(message: String) {
                 Log.d("HTTP call", message)
             }
         }
-        level = LogLevel.ALL
     }
     install(ContentNegotiation) {
         json(

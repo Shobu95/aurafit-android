@@ -55,9 +55,6 @@ fun TryOnScreen(
 
     val state by viewModel.state.collectAsState()
 
-//    var personUri by remember { mutableStateOf<Uri?>(null) }
-//    var garmentUri by remember { mutableStateOf<Uri?>(null) }
-
     var pickerTarget by remember { mutableStateOf<PickerTarget?>(null) }
     val context = LocalContext.current
 
@@ -140,12 +137,12 @@ fun TryOnScreen(
                     modifier = Modifier.weight(1f)
                 )
             }
-            GeneratedImagePreviewBitmap(
-                bitmap = state.resultBitmap?.asImageBitmap(),
+            GeneratedImagePreviewUrl(
+                imageUrl = state.resultUrl,
                 isLoading = state.loading,
                 modifier = Modifier.fillMaxWidth()
             )
-
+            
             state.error?.let {
                 Text(it, color = MaterialTheme.colorScheme.error)
             }
@@ -196,15 +193,12 @@ private fun PreviewTile(
 }
 
 @Composable
-private fun GeneratedImagePreviewBitmap(
-    bitmap: androidx.compose.ui.graphics.ImageBitmap?,
+fun GeneratedImagePreviewUrl(
+    imageUrl: String?,
     isLoading: Boolean,
     modifier: Modifier = Modifier
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(8.dp)
-    ) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("Generated Image", style = MaterialTheme.typography.labelLarge)
         Surface(
             shape = RoundedCornerShape(16.dp),
@@ -215,38 +209,32 @@ private fun GeneratedImagePreviewBitmap(
                 .aspectRatio(1.3f)
         ) {
             when {
-                isLoading -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        CircularProgressIndicator()
-                    }
+                isLoading -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
                 }
-                bitmap == null -> {
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Text(
-                            "No result yet",
-                            style = MaterialTheme.typography.bodySmall,
-                            textAlign = TextAlign.Center,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-                else -> {
-                    Image(
-                        bitmap = bitmap,
-                        contentDescription = "Generated Image",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier.fillMaxSize()
+                imageUrl.isNullOrBlank() -> Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Text(
+                        "No result yet",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+                else -> AsyncImage(
+                    model = imageUrl, // ✅ pass the URL string directly
+                    contentDescription = "Generated Image",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
     }
 }
 
 
+
 @Composable
 fun AsyncImage(
-    model: Uri,
+    model: Any,
     contentDescription: String,
     contentScale: ContentScale,
     modifier: Modifier = Modifier
@@ -263,16 +251,12 @@ fun AsyncImage(
         )
         when (state) {
             is AsyncImagePainter.State.Loading -> {
-                Box(
-                    Modifier.matchParentSize(),
-                    contentAlignment = Alignment.Center
-                ) { CircularProgressIndicator() }
+                Box(Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
             is AsyncImagePainter.State.Error -> {
-                Box(
-                    Modifier.matchParentSize(),
-                    contentAlignment = Alignment.Center
-                ) {
+                Box(Modifier.matchParentSize(), contentAlignment = Alignment.Center) {
                     Text(
                         "Failed to load",
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -284,6 +268,7 @@ fun AsyncImage(
         }
     }
 }
+
 
 
 @Preview(showBackground = true)

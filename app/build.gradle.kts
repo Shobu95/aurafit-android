@@ -23,10 +23,8 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL_TRYON",  project.property("TRYON_URL").toString())
-            buildConfigField("String", "BASE_URL_NANOBANANA",  project.property("NANOBANANA_URL").toString())
-            buildConfigField("String", "API_KEY_TRYON", project.property("TRYON_API_KEY").toString())
-            buildConfigField("String", "API_KEY_NANOBANANA", "\"nanobanana-api-key\"")
+            buildConfigField("String", "PIXELCUT_URL",  project.property("PIXELCUT_URL").toString())
+            buildConfigField("String", "PIXELCUT_API_KEY",  project.property("PIXELCUT_API_KEY").toString())
         }
         release {
             isMinifyEnabled = false
@@ -76,6 +74,7 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.analytics)
+    implementation(libs.firebase.storage.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

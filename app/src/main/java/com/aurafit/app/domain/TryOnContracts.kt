@@ -1,9 +1,11 @@
 package com.aurafit.app.domain
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class TryOnResult(
+    @SerialName("result_url") val resultUrl: String? = null,
     val imageBase64: String? = null,
     val imageUrl: String? = null,
     val error: String? = null
