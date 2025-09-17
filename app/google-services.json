@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "926778959584",
+    "project_id": "aurafit-80da1",
+    "storage_bucket": "aurafit-80da1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:926778959584:android:847eb97dd011bfa5ed1285",
+        "android_client_info": {
+          "package_name": "com.aurafit.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBEx7NpOMhodzgrTcWQ-x8NmS9DMJVsN8M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

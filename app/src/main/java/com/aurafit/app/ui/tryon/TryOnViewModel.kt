@@ -43,7 +43,12 @@ class TryOnViewModel(private val repo: TryOnRepository) : ViewModel() {
                 )
             }
         } catch (e: Exception){
-            e.printStack()
+            _state.update {
+                it.copy(
+                    loading = false,
+                    error = e.message
+                )
+            }
         }
     }
 

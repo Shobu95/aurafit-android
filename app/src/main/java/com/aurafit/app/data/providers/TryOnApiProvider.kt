@@ -15,17 +15,17 @@ class TryOnApiProvider(
 ) : TryOnProvider {
 
     override suspend fun tryOn(personImage: ByteArray, garmentImage: ByteArray): TryOnResult {
-        val response = http.post("$baseUrl/tryon") {
+        val response = http.post(baseUrl) {
             header(HttpHeaders.Authorization, "Bearer $apiKey")
             setBody(
                 MultiPartFormDataContent(
                     formData {
                         append("person", personImage, Headers.build {
-                            append(HttpHeaders.ContentType, "image/jpeg")
+                            append(HttpHeaders.ContentType, "image/*")
                             append(HttpHeaders.ContentDisposition, "filename=person.jpg")
                         })
                         append("garment", garmentImage, Headers.build {
-                            append(HttpHeaders.ContentType, "image/jpeg")
+                            append(HttpHeaders.ContentType, "image/*")
                             append(HttpHeaders.ContentDisposition, "filename=garment.jpg")
                         })
                         // append("category", "upper_body") // if API supports

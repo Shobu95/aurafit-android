@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -22,9 +23,9 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String", "BASE_URL_TRYON", "\"https://api.developer.pixelcut.ai\"")
-            buildConfigField("String", "BASE_URL_NANOBANANA", "\"https://api.nanobanana.dev\"")
-            buildConfigField("String", "API_KEY_TRYON", "\"tryon-api-key\"")
+            buildConfigField("String", "BASE_URL_TRYON",  project.property("TRYON_URL").toString())
+            buildConfigField("String", "BASE_URL_NANOBANANA",  project.property("NANOBANANA_URL").toString())
+            buildConfigField("String", "API_KEY_TRYON", project.property("TRYON_API_KEY").toString())
             buildConfigField("String", "API_KEY_NANOBANANA", "\"nanobanana-api-key\"")
         }
         release {
@@ -72,6 +73,9 @@ dependencies {
     implementation(libs.ktor.logging)
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
